@@ -1,0 +1,8 @@
+{
+    "appId": "com.example.electronvuetemplate",
+    "productName": "electron-vue-template",
+    "directories": {
+      "output": "release"
+    }
+  }
+    
