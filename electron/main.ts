@@ -8,7 +8,10 @@ const createWindow = () => {
   win = new BrowserWindow({
     width: 1200,
     height: 800,
+    show:false,
+    autoHideMenuBar:true,
     webPreferences: {
+      webviewTag:true,
       contextIsolation: false,
       nodeIntegration: true,
       preload : join(__dirname, './preload.js')
@@ -22,12 +25,15 @@ const createWindow = () => {
   }  
 }
 
+app.whenReady().then(() => {
+  createWindow()
+  win?.show()
+})
+
 app.on('window-all-closed', () => {
   win = null
   app.quit()
 })
 
 
-app.whenReady().then(() => {
-  createWindow()
-})
+
