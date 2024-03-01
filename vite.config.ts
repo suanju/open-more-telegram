@@ -1,11 +1,14 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import svgLoader from 'vite-svg-loader'
 import electron from 'vite-plugin-electron/simple'
+import { join } from 'path'
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     vue(),
+    svgLoader(),
     electron({
       main: {
         entry: 'electron/main.ts',
@@ -13,6 +16,11 @@ export default defineConfig({
       preload:{
         input: 'electron/preload.ts',
       }
-    }),
-  ]
+    })
+  ],
+  resolve: {
+    alias: {
+      '@': join(__dirname, "src"),
+    }
+  }
 })
