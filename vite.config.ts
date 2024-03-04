@@ -18,6 +18,11 @@ export default defineConfig({
       }
     })
   ],
+  build: {
+    rollupOptions: {
+      external: ['electron', 'electron/renderer']
+    }
+  },
   resolve: {
     alias: {
       '@': join(__dirname, "src"),

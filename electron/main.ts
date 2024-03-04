@@ -1,39 +1,42 @@
-import { join } from "path"
-import { app, BrowserWindow } from 'electron'
+import { join } from "path";
+import { app, BrowserWindow, ipcMain } from "electron";
 
-const url = process.env['VITE_DEV_SERVER_URL']
+const url = process.env["VITE_DEV_SERVER_URL"];
 
-let win : BrowserWindow | null
+let win: BrowserWindow | null;
 const createWindow = () => {
   win = new BrowserWindow({
     width: 1200,
     height: 800,
-    show:false,
-    autoHideMenuBar:true,
+    show: false,
+    autoHideMenuBar: true,
     webPreferences: {
-      webviewTag:true,
+      webviewTag: true,
       contextIsolation: false,
       nodeIntegration: true,
-      preload : join(__dirname, './preload.js')
+      enableRemoteModule: true,
+      devTools: true,
+      preload: join(__dirname, "./preload.js"),
     },
-  })
+  });
 
-  if(url){
-    win.loadURL(url)
-  }else{
-    win.loadFile(join(join(__dirname, '../dist'),"index.html"))
-  }  
-}
+  if (url) {
+    win.loadURL(url);
+  } else {
+    win.loadFile(join(join(__dirname, "../dist"), "index.html"));
+  }
+
+  ipcMain.on("update-userList", (event, info) => {
+    console.log(event, info);
+  });
+};
 
 app.whenReady().then(() => {
-  createWindow()
-  win?.show()
-})
+  createWindow();
+  win?.show();
+});
 
-app.on('window-all-closed', () => {
-  win = null
-  app.quit()
-})
-
-
-
+app.on("window-all-closed", () => {
+  win = null;
+  app.quit();
+});
